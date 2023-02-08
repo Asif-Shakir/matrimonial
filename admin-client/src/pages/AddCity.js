@@ -1,53 +1,66 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {  Formik, Field, Form, ErrorMessage } from 'formik';
 import Card from '../components/card/Card';
 const AddCity = () => {
-  const cityForm = useFormik({
-    initialValues: {
-      stateName: null,
+  const initialValues = {
+    stateName: '',
       cityName: '',
-    },
-  });
+  }
+  const validationSchema = Yup.object({
+         stateName: Yup.string()
+           .required('Required'),
+         cityName: Yup.string()
+           .max(20, 'Must be 20 characters or less')
+           .required('Required'),
+  })
+  const handleSubmit = (values) => {
+    console.log(values);
+  }
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <Card>
-              <form>
+            <Card heading='Add City'>
+              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+              <Form>
                 <div className="row">
                   <div className="col-6">
                     <div className="mt-2">
                       <label className="mb-1">State</label>
-                      <select
+                      <Field as='select'
                         className="form-control"
                         name="stateName"
-                        onChange={cityForm.handleChange}
-                        value={cityForm.values.stateName}
                       >
-                        <option selected disabled>
+                        <option value="" disabled>
                           ---Select State---
                         </option>
                         <option value="1">Punjab</option>
                         <option value="2">KPK</option>
-                      </select>
+                        </Field>
+                        <ErrorMessage name='stateName'/>                
                     </div>
                   </div>
                   <div className="col-6">
                     <div className="mt-2">
                       <label className="mb-1">City</label>
-                      <input
-                        type="text"
-                        onChange={cityForm.handleChange}
-                        value={cityForm.values.cityName}
+                      <Field
                         name="cityName"
                         className="form-control"
                         placeholder="Enter City Name"
-                      />
+                        />
+                        <ErrorMessage name='cityName'/>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="mt-2">
+                      <button type='submit'className='btn btn-success'>Save</button>
                     </div>
                   </div>
                 </div>
-              </form>
+              </Form>
+              </Formik>
             </Card>
           </div>
         </div>
