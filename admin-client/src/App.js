@@ -2,15 +2,14 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
-
-import './App.css';
 import Counter from './components/Counter';
 import Layout from './layouts/layoutone/Layout';
 import AddCity from './pages/AddCity';
 import Login from './pages/auth/login/Login';
 import Registration from './pages/auth/registration/Registration';
+import { ToastContainer } from 'react-toastify';
 const routes = createBrowserRouter([
-  { path: 'login', element: <Login /> },
+  { path: '/', element: <Login /> },
   {
     path: '/',
     element: <Layout />,
@@ -22,7 +21,12 @@ const routes = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={routes} />;
+  return (
+    <>
+      <ToastContainer theme="dark" />
+      <RouterProvider router={routes} />;
+    </>
+  );
 }
 
 export default App;

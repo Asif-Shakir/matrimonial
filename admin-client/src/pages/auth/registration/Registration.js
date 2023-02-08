@@ -1,10 +1,11 @@
-import Card from "../../../components/card/Card";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import httpService from "../../../shared/http/httpService";
-import apiRoutes from "../../../shared/routes/apiRoutes";
-
+import Card from '../../../components/card/Card';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import httpService from '../../../shared/http/httpService';
+import apiRoutes from '../../../shared/routes/apiRoutes';
+import { toast } from 'react-toastify';
+import StatusCode from '../../../shared/http/statusCode';
 const Registration = () => {
   const [userRoles, setUserRoles] = useState([]);
   useEffect(() => {
@@ -13,24 +14,34 @@ const Registration = () => {
         apiRoutes.Authentication.GetUserRoles
       );
       setUserRoles(response.data.resultData);
-      console.log(userRoles);
     };
     getRoles();
   }, []);
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    userRole: '',
   };
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
-    email: Yup.string().required("Required"),
-    password: Yup.string().required("Required"),
+    firstName: Yup.string().required('Required'),
+    lastName: Yup.string().required('Required'),
+    email: Yup.string().required('Required'),
+    password: Yup.string().required('Required'),
+    userRole: Yup.string().required('Required'),
   });
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    const response = await httpService.post(
+      apiRoutes.Authentication.SignUp,
+      values
+    );
+    if (response.data.status === StatusCode.Duplicate) {
+      toast.info(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+    console.log(response);
   };
   return (
     <div className="container mt-5">
@@ -88,9 +99,34 @@ const Registration = () => {
                       <ErrorMessage name="password" />
                     </div>
                   </div>
+                  <div className="col-6">
+                    <div className="mt-2">
+                      <label className="mb-1">User Role</label>
+                      <Field
+                        as="select"
+                        name="userRole"
+                        className="form-control"
+                      >
+                        <option value="" disabled>
+                          ---Select Role---
+                        </option>
+                        {userRoles.map((role, index) => {
+                          return (
+                            <option key={index} value={role._id}>
+                              {role.roleName}
+                            </option>
+                          );
+                        })}
+                      </Field>
+                      <ErrorMessage name="userRole" />
+                    </div>
+                  </div>
                   <div className="col-12">
                     <div className="mt-2">
-                      <button type="submit" className="btn btn-success">
+                      <button
+                        type="submit"
+                        className="btn btn-success"
+                      >
                         Save
                       </button>
                     </div>
