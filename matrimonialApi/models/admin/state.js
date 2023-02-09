@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const stateSchema = new Schema(
   {
-    staeName: {
+    stateName: {
       type: String,
       required: true,
     },
