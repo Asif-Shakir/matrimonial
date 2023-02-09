@@ -3,6 +3,8 @@ import style from "./login.module.css";
 import React from "react";
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import httpService from "../../../shared/http/httpService";
+import apiRoutes from "../../../shared/routes/apiRoutes";
 
 const Login = () => {
   const initialValues = {
@@ -13,8 +15,12 @@ const Login = () => {
     email: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
   });
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    const response = await httpService.post(
+      apiRoutes.Authentication.Login,
+      values
+    );
+    console.log(response.data);
   };
   return (
     <div className={style.login_wrapper}>
