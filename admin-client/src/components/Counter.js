@@ -1,9 +1,9 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { counterActions } from '../store/counter-slice';
+import { useSelector, useDispatch } from "react-redux";
+import { counterActions } from "../store/counter-slice";
 const Counter = () => {
   const dispatch = useDispatch();
-  const count = useSelector((state) => state.count);
-  const show = useSelector((state) => state.show);
+  const count = useSelector((state) => state.counter.count);
+  const show = useSelector((state) => state.counter.show);
   const incHandler = () => {
     dispatch(counterActions.increment());
   };
@@ -19,7 +19,7 @@ const Counter = () => {
   return (
     <div
       className="p-2 d-flex flex-column align-items-center gap-2"
-      style={{ minHeight: '100px', background: '#e4e4e4' }}
+      style={{ minHeight: "100px", background: "#e4e4e4" }}
     >
       <p>Counter: {count}</p>
       {show && (

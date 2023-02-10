@@ -5,8 +5,13 @@ import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import httpService from "../../../shared/http/httpService";
 import apiRoutes from "../../../shared/routes/apiRoutes";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk } from "../../../store/auth-slice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth);
+  console.log(user);
   const initialValues = {
     email: "",
     password: "",
@@ -16,11 +21,13 @@ const Login = () => {
     password: Yup.string().required("Required"),
   });
   const handleSubmit = async (values) => {
-    const response = await httpService.post(
-      apiRoutes.Authentication.Login,
-      values
-    );
-    console.log(response.data);
+    const data = { ...values, url: apiRoutes.Authentication.Login };
+    dispatch(loginThunk(data));
+    // const response = await httpService.post(
+    //   apiRoutes.Authentication.Login,
+    //   values
+    // );
+    // console.log(response.data);
   };
   return (
     <div className={style.login_wrapper}>
