@@ -6,17 +6,22 @@ import httpService from '../../../shared/http/httpService';
 import apiRoutes from '../../../shared/routes/apiRoutes';
 import { toast } from 'react-toastify';
 import StatusCode from '../../../shared/http/statusCode';
+import { useDispatch } from 'react-redux';
+import { spinnerActions } from '../../../store/spinnerSlices';
 const Registration = () => {
+  const dispatch = useDispatch();
   const [userRoles, setUserRoles] = useState([]);
   useEffect(() => {
     const getRoles = async () => {
+      dispatch(spinnerActions.show());
       const response = await httpService.get(
         apiRoutes.Authentication.GetUserRoles
       );
+      dispatch(spinnerActions.hide());
       setUserRoles(response.data.resultData);
     };
     getRoles();
-  }, []);
+  }, [dispatch]);
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -32,12 +37,19 @@ const Registration = () => {
     userRole: Yup.string().required('Required'),
   });
   const handleSubmit = async (values) => {
+    dispatch(spinnerActions.show());
     const response = await httpService.post(
       apiRoutes.Authentication.SignUp,
       values
     );
     if (response.data.status === StatusCode.Duplicate) {
+      dispatch(spinnerActions.hide());
       toast.info(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (response.data.status === StatusCode.OK) {
+      dispatch(spinnerActions.hide());
+      toast.success(response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }

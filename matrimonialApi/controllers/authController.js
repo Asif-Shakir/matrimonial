@@ -1,17 +1,18 @@
-const User = require("../models/user");
-const UserRole = require("../models/admin/userRole");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const StatusCode = require("../shared/statusCode");
+const User = require('../models/user');
+const UserRole = require('../models/admin/userRole');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const StatusCode = require('../shared/statusCode');
 
 exports.postLogin = async (req, res, next) => {
   const data = JSON.parse(req.body.data);
+  //const { email } = req.body;
   const email = data.email;
   const password = data.password;
   try {
     const findUserByEmail = await User.findOne({
       email: email,
-    }).populate("userRole");
+    }).populate('userRole');
     if (findUserByEmail) {
       const matchPassword = await bcrypt.compare(
         password,
@@ -23,12 +24,12 @@ exports.postLogin = async (req, res, next) => {
             email: findUserByEmail.email,
             userId: findUserByEmail._id.toString(),
           },
-          "myspecialsecret",
-          { expiresIn: "5h" }
+          'myspecialsecret',
+          { expiresIn: '5h' }
         );
         res.json({
           status: 200,
-          message: "Token created successfully!",
+          message: 'Token created successfully!',
           resultData: {
             token,
             userId: findUserByEmail._id.toString(),
@@ -39,11 +40,11 @@ exports.postLogin = async (req, res, next) => {
       } else {
         res.json({
           status: 401,
-          message: "Invalid email or password",
+          message: 'Invalid email or password',
         });
       }
     } else {
-      res.json({ status: 401, message: "User not found" });
+      res.json({ status: 401, message: 'User not found' });
     }
   } catch (err) {
     console.log(err);
@@ -58,7 +59,7 @@ exports.postSignup = async (req, res, next) => {
     if (findUserByEmail) {
       return res.json({
         status: StatusCode.Duplicate,
-        message: "User already exist",
+        message: 'User already exist',
       });
     }
     bcrypt
@@ -69,7 +70,7 @@ exports.postSignup = async (req, res, next) => {
       })
       .then((user) => {
         if (user) {
-          res.json({ status: 200, message: "User created" });
+          res.json({ status: 200, message: 'User created' });
         }
       })
       .catch((err) => console.log(err)) //user catch
@@ -81,8 +82,25 @@ exports.postSignup = async (req, res, next) => {
 exports.getRoles = async (req, res, next) => {
   try {
     const roles = await UserRole.find({});
-    res.json({ status: 200, message: "success", resultData: roles });
+    res.json({ status: 200, message: 'success', resultData: roles });
   } catch (err) {
     console.log(err);
   }
 };
+
+// const auth = {
+//   getRoles: async (req, res, next) => {
+//     try {
+//       const roles = await UserRole.find({});
+//       res.json({
+//         status: 200,
+//         message: 'success',
+//         resultData: roles,
+//       });
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   },
+// };
+
+// module.exports = auth;

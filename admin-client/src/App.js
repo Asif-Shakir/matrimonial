@@ -8,6 +8,9 @@ import AddCity from './pages/AddCity';
 import Login from './pages/auth/login/Login';
 import Registration from './pages/auth/registration/Registration';
 import { ToastContainer } from 'react-toastify';
+import { ThreeCircles } from 'react-loader-spinner';
+import SiteColors from './assets/colors';
+import { useSelector } from 'react-redux';
 const routes = createBrowserRouter([
   { path: '/', element: <Login /> },
   {
@@ -21,9 +24,23 @@ const routes = createBrowserRouter([
   },
 ]);
 function App() {
+  const showSpinner = useSelector((state) => state.spinner.show);
+  console.log(showSpinner);
   return (
     <>
       <ToastContainer theme="dark" />
+      <ThreeCircles
+        height="100"
+        width="100"
+        color="#4fa94d"
+        // wrapperStyle={{}}
+        wrapperClass="spinner"
+        visible={showSpinner}
+        ariaLabel="three-circles-rotating"
+        outerCircleColor={SiteColors.primary}
+        innerCircleColor={SiteColors.secondary}
+        middleCircleColor={SiteColors.primary}
+      />
       <RouterProvider router={routes} />;
     </>
   );
