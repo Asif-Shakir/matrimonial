@@ -1,31 +1,29 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
-import Counter from './components/Counter';
-import Layout from './layouts/layoutone/Layout';
-import AddCity from './pages/AddCity';
-import Login from './pages/auth/login/Login';
-import Registration from './pages/auth/registration/Registration';
-import { ToastContainer } from 'react-toastify';
-import { ThreeCircles } from 'react-loader-spinner';
-import SiteColors from './assets/colors';
-import { useSelector } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Counter from "./components/Counter";
+import Layout from "./layouts/layoutone/Layout";
+import AddCity from "./pages/AddCity";
+import Login from "./pages/auth/login/Login";
+import Registration from "./pages/auth/registration/Registration";
+import { ToastContainer } from "react-toastify";
+import { ThreeCircles } from "react-loader-spinner";
+import SiteColors from "./assets/colors";
+import { useSelector } from "react-redux";
+import AddState from "./pages/AddState";
 const routes = createBrowserRouter([
-  { path: '/', element: <Login /> },
+  { path: "/login", element: <Login /> },
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
-      { path: 'signup', element: <Registration /> },
-      { path: 'counter', element: <Counter /> },
-      { path: 'add-city', element: <AddCity /> },
+      { path: "signup", element: <Registration /> },
+      { path: "counter", element: <Counter /> },
+      { path: "add-city", element: <AddCity /> },
+      { path: "add-state", element: <AddState /> },
     ],
   },
 ]);
 function App() {
   const showSpinner = useSelector((state) => state.spinner.show);
-  console.log(showSpinner);
   return (
     <>
       <ToastContainer theme="dark" />

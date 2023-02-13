@@ -1,30 +1,30 @@
-import Card from '../../../components/card/Card';
-import style from './login.module.css';
-import React from 'react';
-import * as Yup from 'yup';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import apiRoutes from '../../../shared/routes/apiRoutes';
-import appRoutes from '../../../shared/routes/appRoutes';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginThunk } from '../../../store/auth-slice';
-import { useNavigate } from 'react-router-dom';
+import Card from "../../../components/card/Card";
+import style from "./login.module.css";
+import React, { useEffect } from "react";
+import * as Yup from "yup";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import apiRoutes from "../../../shared/routes/apiRoutes";
+import appRoutes from "../../../shared/routes/appRoutes";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk } from "../../../store/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth);
-  if (user.userInfo.userId) {
-    console.log('yest has data');
-    navigate(appRoutes.Authentication.SignUp);
-  }
-  console.log(user);
+  useEffect(() => {
+    if (user.userInfo?.userId) {
+      navigate(appRoutes.Authentication.SignUp);
+    }
+  }, [user, navigate]);
   const initialValues = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   const validationSchema = Yup.object({
-    email: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
+    email: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
   });
   const handleSubmit = async (values) => {
     const data = { ...values, url: apiRoutes.Authentication.Login };
@@ -67,10 +67,7 @@ const Login = () => {
                     </div>
                     <div className="col-12">
                       <div className="mt-2">
-                        <button
-                          type="submit"
-                          className="btn btn-success"
-                        >
+                        <button type="submit" className="btn btn-success">
                           Save
                         </button>
                       </div>

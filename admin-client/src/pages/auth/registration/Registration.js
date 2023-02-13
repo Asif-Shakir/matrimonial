@@ -1,13 +1,14 @@
-import Card from '../../../components/card/Card';
-import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import httpService from '../../../shared/http/httpService';
-import apiRoutes from '../../../shared/routes/apiRoutes';
-import { toast } from 'react-toastify';
-import StatusCode from '../../../shared/http/statusCode';
-import { useDispatch } from 'react-redux';
-import { spinnerActions } from '../../../store/spinnerSlices';
+import Card from "../../../components/card/Card";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import httpService from "../../../shared/http/httpService";
+import apiRoutes from "../../../shared/routes/apiRoutes";
+import { toast } from "react-toastify";
+import StatusCode from "../../../shared/http/statusCode";
+import { useDispatch } from "react-redux";
+import { spinnerActions } from "../../../store/spinnerSlices";
+import TextError from "../../../components/TextError";
 const Registration = () => {
   const dispatch = useDispatch();
   const [userRoles, setUserRoles] = useState([]);
@@ -23,18 +24,18 @@ const Registration = () => {
     getRoles();
   }, [dispatch]);
   const initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    userRole: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    userRole: "",
   };
   const validationSchema = Yup.object({
-    firstName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
-    email: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
-    userRole: Yup.string().required('Required'),
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    email: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+    userRole: Yup.string().required("Required"),
   });
   const handleSubmit = async (values) => {
     dispatch(spinnerActions.show());
@@ -75,7 +76,7 @@ const Registration = () => {
                         name="firstName"
                         placeholder="First Name"
                       />
-                      <ErrorMessage name="firstName" />
+                      <ErrorMessage name="firstName" component={TextError} />
                     </div>
                   </div>
                   <div className="col-6">
@@ -86,7 +87,7 @@ const Registration = () => {
                         name="lastName"
                         placeholder="Last Name"
                       />
-                      <ErrorMessage name="lastName" />
+                      <ErrorMessage name="lastName" component={TextError} />
                     </div>
                   </div>
                   <div className="col-6">
@@ -97,7 +98,7 @@ const Registration = () => {
                         name="email"
                         placeholder="Email"
                       />
-                      <ErrorMessage name="email" />
+                      <ErrorMessage name="email" component={TextError} />
                     </div>
                   </div>
                   <div className="col-6">
@@ -108,7 +109,7 @@ const Registration = () => {
                         className="form-control"
                         placeholder="Password"
                       />
-                      <ErrorMessage name="password" />
+                      <ErrorMessage name="password" component={TextError} />
                     </div>
                   </div>
                   <div className="col-6">
@@ -130,15 +131,12 @@ const Registration = () => {
                           );
                         })}
                       </Field>
-                      <ErrorMessage name="userRole" />
+                      <ErrorMessage name="userRole" component={TextError} />
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="mt-2">
-                      <button
-                        type="submit"
-                        className="btn btn-success"
-                      >
+                      <button type="submit" className="btn btn-primary">
                         Save
                       </button>
                     </div>

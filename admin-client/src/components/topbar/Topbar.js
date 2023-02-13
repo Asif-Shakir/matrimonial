@@ -1,13 +1,32 @@
-import './topbar.css';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import FullscreenExitOutlinedIcon from '@mui/icons-material/FullscreenExitOutlined';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
+import "./topbar.css";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import appRoutes from "../../shared/routes/appRoutes";
+import { authSliceActions } from "../../store/auth-slice";
 
 const Topbar = () => {
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const [toggleDropdwon, setToggleDropdwon] = useState(false);
+  const toggle = () => {
+    setToggleDropdwon((state) => !state);
+  };
+  const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(authSliceActions.logout());
+    console.log("i am hre ");
+    localStorage.removeItem("_authState");
+    navigate("login", { replace: true });
+    console.log("i am hre ende ");
+  };
   return (
     <div className="top-navbar">
       <div className="wrapper">
@@ -37,12 +56,24 @@ const Topbar = () => {
           <div className="item">
             <ListOutlinedIcon className="icon" />
           </div>
-          <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
+          <div className="item" onClick={toggle}>
+            <div className="d-flex align-items-center gap-2">
+              <img
+                src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                alt=""
+                className="avatar"
+              />
+              <p className="m-0 fw-bolder">Welcome, {userInfo?.firstName}</p>
+            </div>
+
+            {toggleDropdwon && (
+              <div className="logged-user-dropdown">
+                <div className="d-flex flex-column gap-3">
+                  <a href="">Profile</a>
+                  <a onClick={logout}>Logout</a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
