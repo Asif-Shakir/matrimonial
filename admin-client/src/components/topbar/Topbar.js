@@ -22,10 +22,8 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(authSliceActions.logout());
-    console.log("i am hre ");
     localStorage.removeItem("_authState");
-    navigate("login", { replace: true });
-    console.log("i am hre ende ");
+    navigate(appRoutes.Authentication.Login, { replace: true });
   };
   return (
     <div className="top-navbar">

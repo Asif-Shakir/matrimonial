@@ -17,11 +17,13 @@ const fileStorage = multer.diskStorage({
 const app = express();
 // const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require("./routes/authRoutes/auth");
+const stateRoutes = require("./routes/configrationRoutes");
 app.use(bodyParser.json());
 app.use(multer({ storage: fileStorage }).single("image"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(cors());
 app.use(authRoutes);
+app.use(stateRoutes);
 // app.use(bookRoutes);
 mongoose
   .connect(

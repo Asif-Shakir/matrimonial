@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../store/auth-slice";
 import { useNavigate } from "react-router-dom";
 import TextError from "../../../components/TextError";
+import { HttpStatusCode } from "axios";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -67,8 +68,11 @@ const Login = () => {
                       </div>
                     </div>
                     <div className="col-12">
+                      {user.status === HttpStatusCode.Unauthorized ? (
+                        <TextError>Invalid username or password.</TextError>
+                      ) : null}
                       <div className="mt-2">
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-primary">
                           Save
                         </button>
                       </div>

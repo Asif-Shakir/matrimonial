@@ -18,6 +18,7 @@ const Registration = () => {
       const response = await httpService.get(
         apiRoutes.Authentication.GetUserRoles
       );
+      console.log(response);
       dispatch(spinnerActions.hide());
       setUserRoles(response.data.resultData);
     };
@@ -123,7 +124,7 @@ const Registration = () => {
                         <option value="" disabled>
                           ---Select Role---
                         </option>
-                        {userRoles.map((role, index) => {
+                        {userRoles?.map((role, index) => {
                           return (
                             <option key={index} value={role._id}>
                               {role.roleName}
