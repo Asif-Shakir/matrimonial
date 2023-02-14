@@ -8,7 +8,6 @@ const initialState = {
 };
 export const loginThunk = createAsyncThunk("auth/login", async (data) => {
   const { url, email, password } = data;
-  debugger;
   const response = await httpService.post(url, { email, password });
   if (response.data.resultData.email) {
     localStorage.setItem(

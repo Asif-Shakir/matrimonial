@@ -8,6 +8,7 @@ import appRoutes from "../../../shared/routes/appRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../store/auth-slice";
 import { useNavigate } from "react-router-dom";
+import TextError from "../../../components/TextError";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Login = () => {
                           name="email"
                           placeholder="Email"
                         />
-                        <ErrorMessage name="email" />
+                        <ErrorMessage name="email" component={TextError} />
                       </div>
                     </div>
                     <div className="col-12">
@@ -62,7 +63,7 @@ const Login = () => {
                           className="form-control"
                           placeholder="Password"
                         />
-                        <ErrorMessage name="password" />
+                        <ErrorMessage name="password" component={TextError} />
                       </div>
                     </div>
                     <div className="col-12">
