@@ -1,9 +1,9 @@
-import "./sidebar.css";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import { NavLink } from "react-router-dom";
-import appRoutes from "../../shared/routes/appRoutes";
+import './sidebar.css';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import { NavLink } from 'react-router-dom';
+import appRoutes from '../../shared/routes/appRoutes';
 
 const Sidebar = () => {
   return (
@@ -16,10 +16,10 @@ const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <li>
-            <a href="#">
+            <NavLink to={appRoutes.Configrations.State}>
               <DashboardIcon className="icon" />
               Dashboard
-            </a>
+            </NavLink>
           </li>
           <p className="title">CONFIGRATIONS</p>
           <li>

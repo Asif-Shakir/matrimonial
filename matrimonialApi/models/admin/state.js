@@ -8,6 +8,14 @@ const stateSchema = new Schema(
       type: String,
       required: true,
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
+    modifiedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { timestamps: true }
 );
