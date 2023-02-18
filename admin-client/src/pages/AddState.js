@@ -3,6 +3,10 @@ import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import Card from "../components/card/Card";
 import TextError from "../components/TextError";
+import httpService from "../shared/http/httpService";
+import apiRoutes from "../shared/routes/apiRoutes";
+import { HttpStatusCode } from "axios";
+import { toast } from "react-toastify";
 const AddState = () => {
   const initialValues = {
     stateName: "",
@@ -10,8 +14,17 @@ const AddState = () => {
   const validationSchema = Yup.object({
     stateName: Yup.string().required("Required"),
   });
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    const response = await httpService.post(
+      apiRoutes.Configrations.AddState,
+      values
+    );
+    console.log(response.data);
+    if (response.data.status === HttpStatusCode.Conflict) {
+      toast.error(response.data.message);
+    } else if (response.data.status === HttpStatusCode.Ok) {
+      toast.error(response.data.message);
+    }
   };
   return (
     <>

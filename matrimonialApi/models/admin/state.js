@@ -8,6 +8,10 @@ const stateSchema = new Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',

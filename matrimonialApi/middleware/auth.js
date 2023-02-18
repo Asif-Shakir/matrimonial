@@ -4,14 +4,17 @@ const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
   const getAuth = req.get("Authorization");
   let token;
+  console.log(getAuth);
   if (getAuth) {
     token = getAuth.split(" ")[1];
-  } else {
-    return res.json({
-      status: 401,
-      message: "Unauthrized user",
-      resultData: null,
-    });
+    if (!token) {
+      return res.json({
+        status: 401,
+        message: "Unauthrized user",
+        resultData: null,
+      });
+    }
+    console.log(token);
   }
   let decodedToken;
   try {

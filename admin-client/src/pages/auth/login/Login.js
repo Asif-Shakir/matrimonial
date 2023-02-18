@@ -8,6 +8,8 @@ import appRoutes from "../../../shared/routes/appRoutes";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../../store/auth-slice";
 import { useNavigate } from "react-router-dom";
+import TextError from "../../../components/TextError";
+import { HttpStatusCode } from "axios";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -51,7 +53,7 @@ const Login = () => {
                           name="email"
                           placeholder="Email"
                         />
-                        <ErrorMessage name="email" />
+                        <ErrorMessage name="email" component={TextError} />
                       </div>
                     </div>
                     <div className="col-12">
@@ -62,12 +64,15 @@ const Login = () => {
                           className="form-control"
                           placeholder="Password"
                         />
-                        <ErrorMessage name="password" />
+                        <ErrorMessage name="password" component={TextError} />
                       </div>
                     </div>
                     <div className="col-12">
+                      {user.status === HttpStatusCode.Unauthorized ? (
+                        <TextError>Invalid username or password.</TextError>
+                      ) : null}
                       <div className="mt-2">
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-primary">
                           Save
                         </button>
                       </div>
