@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const configController = require("../controllers/configrationController");
+const configController = require('../controllers/configrationController');
+const isAuthenticated = require('../middleware/auth');
 
-router.post("/addState", configController.addState);
-router.get("/getStates", configController.getStates);
+router.post('/addState', isAuthenticated, configController.addState);
+router.get('/getStates', isAuthenticated, configController.getStates);
 
 module.exports = router;

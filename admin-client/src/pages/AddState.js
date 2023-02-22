@@ -1,18 +1,36 @@
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import Card from "../components/card/Card";
-import TextError from "../components/TextError";
-import httpService from "../shared/http/httpService";
-import apiRoutes from "../shared/routes/apiRoutes";
-import { HttpStatusCode } from "axios";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import Card from '../components/card/Card';
+import TextError from '../components/TextError';
+import httpService from '../shared/http/httpService';
+import apiRoutes from '../shared/routes/apiRoutes';
+import { HttpStatusCode } from 'axios';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { spinnerActions } from '../store/spinnerSlices';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 const AddState = () => {
+  const dispatch = useDispatch();
+  const [stateList, setStateList] = useState([]);
+  useEffect(() => {
+    const getStateList = async () => {
+      dispatch(spinnerActions.show());
+      const response = await httpService.get(
+        apiRoutes.Configrations.GetStateList
+      );
+      dispatch(spinnerActions.hide());
+      setStateList(response.data.resultData);
+    };
+    getStateList();
+  }, [dispatch]);
+  console.log(stateList);
   const initialValues = {
-    stateName: "",
+    stateName: '',
   };
   const validationSchema = Yup.object({
-    stateName: Yup.string().required("Required"),
+    stateName: Yup.string().required('Required'),
   });
   const handleSubmit = async (values) => {
     const response = await httpService.post(
@@ -47,12 +65,18 @@ const AddState = () => {
                           className="form-control"
                           placeholder="State Name"
                         />
-                        <ErrorMessage name="stateName" component={TextError} />
+                        <ErrorMessage
+                          name="stateName"
+                          component={TextError}
+                        />
                       </div>
                     </div>
                     <div className="col-12">
                       <div className="mt-2">
-                        <button type="submit" className="btn btn-primary">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                        >
                           Save
                         </button>
                       </div>
@@ -61,6 +85,31 @@ const AddState = () => {
                 </Form>
               </Formik>
             </Card>
+          </div>
+          <div className="col-12 mt-5">
+            <table className="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>State Name</th>
+                  <th>Created By</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stateList.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item?.stateName}</td>
+                      <td>{item?.userId?.email}</td>
+                      <td>
+                        <EditIcon className="me-1 text-info cp" />
+                        <DeleteIcon className="text-danger cp" />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

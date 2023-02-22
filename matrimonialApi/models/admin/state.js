@@ -12,14 +12,6 @@ const stateSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
     },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
-    modifiedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-    },
   },
   { timestamps: true }
 );

@@ -49,3 +49,6 @@ a {
   background: #2bb18b;
   border-color: #229d7a;
 }
+.cp{
+  cursor: pointer !important;
+}
