@@ -6,12 +6,13 @@
     border-bottom: 1px solid #dadada;
     background: #f4f4f4;
 }
-.header_title{
-    font-size: 1.25rem;
-    font-weight: 500;
+.header_title {
+    font-size: 18px;
+    font-weight: 600;
     margin: 0;
-    padding: 1rem;
-    color: #1d1d1d;
+    padding: 7px 15px;
+    color: #ffffff;
+    background: #00b5ff;
 }
 .card_body{
     padding: 1rem;

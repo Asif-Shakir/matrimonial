@@ -28,6 +28,7 @@ app.use(cors());
 app.use(authRoutes);
 app.use(stateRoutes);
 // app.use(bookRoutes);
+mongoose.set('strictQuery', false);
 mongoose
   .connect(
     'mongodb+srv://asifshakir:123mongodb123@cluster0.6h1tvmj.mongodb.net/Matrimonial?retryWrites=true&w=majority'
