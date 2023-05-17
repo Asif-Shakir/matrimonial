@@ -9,6 +9,10 @@ const apiRoutes = {
         AddState: '/addState',
         GetStateList: '/getStates',
         UpdateState: '/updateState/',
+        AddCity: '/addCity',
+        GetCityList: '/getCityList',
+        UpdateCity: '/updateCity/',
+
     },
 };
 export default apiRoutes;

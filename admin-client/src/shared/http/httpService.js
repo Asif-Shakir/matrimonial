@@ -16,7 +16,6 @@ class HttpService {
     }
 
     update(id, url, data) {
-        debugger;
         const formData = new FormData();
         formData.append('data', JSON.stringify(data));
         return http.put(url + id, formData);

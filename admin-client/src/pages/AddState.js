@@ -12,6 +12,8 @@ import { spinnerActions } from '../store/spinnerSlices';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Status from '../components/status/Status';
+import Moment from 'react-moment';
+
 const AddState = () => {
     const dispatch = useDispatch();
     const [stateList, setStateList] = useState([]);
@@ -79,7 +81,7 @@ const AddState = () => {
             setStateObj(null);
         }
     };
-    const patchValue = async (item) => {
+    const patchValue = (item) => {
         setStateObj({ stateName: item.stateName, status: item['status'] });
         setAction({ actionType: 'edit', id: item._id });
     };
@@ -133,11 +135,13 @@ const AddState = () => {
                         </Card>
                     </div>
                     <div className="col-12 mt-5">
+                        <h5 className='primary-clr mb-3'>States List</h5>
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>State Name</th>
                                     <th>Created By</th>
+                                    <th>Created On</th>
                                     <th>Updated By</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -150,6 +154,11 @@ const AddState = () => {
                                             <tr key={index}>
                                                 <td>{item?.stateName}</td>
                                                 <td>{item?.userId?.email}</td>
+                                                <td>
+                                                    <Moment format="ll">
+                                                        {item?.createdAt}
+                                                    </Moment>
+                                                </td>
                                                 <td>{item?.updatedBy?.email}</td>
                                                 <td>
                                                     <Status type={item?.status?.name} />
